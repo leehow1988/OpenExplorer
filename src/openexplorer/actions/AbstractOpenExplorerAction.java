@@ -97,18 +97,16 @@ public abstract class AbstractOpenExplorerAction implements IActionDelegate,
 				if ((segment instanceof IResource)){
 					resource = (IResource) segment;
 				}else if ((segment instanceof IJavaElement)) {
-					if(segment instanceof IPackageFragmentRoot){
-						IPackageFragmentRoot pfr = (IPackageFragmentRoot) segment;
-						openInBrowser(browser, pfr.getPath().toOSString());
+					IJavaElement je = (IJavaElement) segment;
+					resource = je.getResource();
+					if(resource == null && je.getPath()!=null){
+						openInBrowser(browser, je.getPath().toOSString());
 						break;
-					}else{
-						resource = ((IJavaElement) segment).getResource();
 					}
 				}
 				if (resource == null) {
 					continue;
 				}
-				
 				String location = resource.getLocation().toOSString();
 				if ((resource instanceof IFile)) {
 					location = ((IFile) resource).getParent().getLocation().toOSString();
