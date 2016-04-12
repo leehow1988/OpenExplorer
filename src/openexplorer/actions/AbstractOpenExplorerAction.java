@@ -25,13 +25,10 @@ package openexplorer.actions;
 
 import java.io.IOException;
 
-import openexplorer.Activator;
-import openexplorer.util.Messages;
-import openexplorer.util.OperatingSystem;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.ITextSelection;
@@ -46,6 +43,10 @@ import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+
+import openexplorer.Activator;
+import openexplorer.util.Messages;
+import openexplorer.util.OperatingSystem;
 
 /**
  * @author <a href="mailto:samson959@gmail.com">Samson Wu</a>
@@ -87,28 +88,32 @@ public abstract class AbstractOpenExplorerAction implements IActionDelegate,
 			ITreeSelection treeSelection = (ITreeSelection) this.currentSelection;
 
 			TreePath[] paths = treeSelection.getPaths();
-
+			String browser = OperatingSystem.INSTANCE.isWindows() ? this.systemBrowser + " /select," : this.systemBrowser;
+			
 			for (int i = 0; i < paths.length; i++) {
 				TreePath path = paths[i];
 				IResource resource = null;
 				Object segment = path.getLastSegment();
-				if ((segment instanceof IResource))
+				if ((segment instanceof IResource)){
 					resource = (IResource) segment;
-				else if ((segment instanceof IJavaElement)) {
-					resource = ((IJavaElement) segment).getResource();
+				}else if ((segment instanceof IJavaElement)) {
+					if(segment instanceof IPackageFragmentRoot){
+						IPackageFragmentRoot pfr = (IPackageFragmentRoot) segment;
+						openInBrowser(browser, pfr.getPath().toOSString());
+						break;
+					}else{
+						resource = ((IJavaElement) segment).getResource();
+					}
 				}
 				if (resource == null) {
 					continue;
 				}
-				String browser = this.systemBrowser;
+				
 				String location = resource.getLocation().toOSString();
 				if ((resource instanceof IFile)) {
-					location = ((IFile) resource).getParent().getLocation()
-					        .toOSString();
+					location = ((IFile) resource).getParent().getLocation().toOSString();
 					if (OperatingSystem.INSTANCE.isWindows()) {
-						browser = this.systemBrowser + " /select,";
-						location = ((IFile) resource).getLocation()
-						        .toOSString();
+						location = ((IFile) resource).getLocation().toOSString();
 					}
 				}
 				openInBrowser(browser, location);
