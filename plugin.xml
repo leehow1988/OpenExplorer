@@ -17,6 +17,7 @@
          </action>
       </actionSet>
    </extension>
+   <!-- 右键鼠标弹出的菜单鉴于工具栏里有这里就不显示了
    <extension
          point="org.eclipse.ui.popupMenus">
          <objectContribution
@@ -32,6 +33,7 @@
          </action>
       </objectContribution>
    </extension>
+   -->
    <extension
          point="org.eclipse.ui.preferencePages">
       <page

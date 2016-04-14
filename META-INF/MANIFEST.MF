@@ -2,9 +2,9 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: OpenExplorer
 Bundle-SymbolicName: OpenExplorer;singleton:=true
-Bundle-Version: 1.5.0.qualifier
+Bundle-Version: 1.5.1.leehow1988
 Bundle-Activator: openexplorer.Activator
-Bundle-Vendor: Samson Wu
+Bundle-Vendor: Samson Wu, leehow1988
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
