@@ -30,10 +30,11 @@ import org.eclipse.ui.IWorkbenchPart;
 /**
  * @author <a href="mailto:samson959@gmail.com">Samson Wu</a>
  * @version 1.4.0
+ * 右键鼠标弹出的菜单鉴于工具栏里有这里就不显示了。参照plugin.xml中 plugin extension point="org.eclipse.ui.popupMenus"
  */
 public class OpenExplorerPopupAction extends AbstractOpenExplorerAction
         implements IObjectActionDelegate {
-
+	
     public void setActivePart(IAction action, IWorkbenchPart targetPart) {
         this.window = targetPart.getSite().getWorkbenchWindow();
         this.shell = targetPart.getSite().getShell();
